@@ -93,6 +93,23 @@ function windowStateKeeper(windowName) {
   });
 }
 
+function saveStyle(data){
+  let dir = path.join(path.join(__dirname,`../settings`))
+  if (!fs.existsSync(dir)){
+      fs.mkdirSync(dir);
+  }
+  let settings = path.join(__dirname,`../settings/windowState.styles.json`);
+  storeData(data,settings);
+}
+
+function readStyle(){
+  let settings = path.join(__dirname,`../settings/windowState.styles.json`);
+  if (!fs.existsSync(settings)) return null;
+  return readData(settings);
+}
+
 module.exports.getSubDirNames = getSubDirNames;
 module.exports.getImageFiles = getImageFiles;
 module.exports.windowStateKeeper = windowStateKeeper;
+module.exports.saveStyle = saveStyle;
+module.exports.readStyle = readStyle;

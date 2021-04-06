@@ -10,7 +10,6 @@
 window.jQuery = window.$ = jQuery;
 
 $(document).ready(function () {
-  console.log("jQuery is loaded");
 
   document.getElementById('dirs').addEventListener('click', (evt) => {
     evt.preventDefault()
@@ -22,7 +21,6 @@ $(document).ready(function () {
 
   window.addEventListener('message', evt => {
     if (evt.data.type === 'load-ui-gallery') {
-      console.log(evt.data.value)
       load_gallery(evt.data.value)
     }
   })
@@ -44,7 +42,7 @@ function load_gallery(gallery) {
     let image = $(this).find("img");
     let title = $(image).attr("title");
     let targets = gallery[title];
-    open_viewer_window(targets);
+    open_viewer_window({title: title,images: targets});
   })
 }
 
@@ -56,7 +54,7 @@ function open_viewer_window(targets){
 }
 function truncate(str, n, useWordBoundary = true) {
   if (str.length <= n) { return str; }
-  const subString = str.substr(0, n - 1); // the original check
+  const subString = str.substr(0, n - 1); 
   return (useWordBoundary
     ? subString.substr(0, subString.lastIndexOf(" "))
     : subString) + "&hellip;";

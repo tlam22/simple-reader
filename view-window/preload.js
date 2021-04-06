@@ -9,4 +9,10 @@ process.once('loaded', () => {
         })
     })
 
+    window.addEventListener('message', evt => {
+      if (evt.data.type === 'view-g-div-resize') {
+        ipcRenderer.send('view-g-div-resize', evt.data.value);
+      }
+    })
+
 })

@@ -66,10 +66,11 @@ ipcMain.on('select-dirs', async (event, arg) => {
   const result = await dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory']
   })
+  if(result.filePaths.length === 0) return;
   const files = utils.getSubDirNames(result.filePaths);
   let thumbs = utils.getImageFiles(files)
   mainWindow.webContents.send("directory-list", thumbs);
-})
+});
 
 ipcMain.on('view-window-open', async(event,arg)=>{
   const mainWindowStateKeeper = utils.windowStateKeeper('view')
@@ -93,7 +94,15 @@ ipcMain.on('view-window-open', async(event,arg)=>{
     childWindow.once('ready-to-show', () => {
       childWindow.show()
     })
+    let styles = utils.readStyle();
+    if(styles){
+      arg.styles= styles;
+    }
     childWindow.once("show", function() {
       childWindow.webContents.send("view-window-data-main", arg);
     });
-})
+});
+
+ipcMain.on('view-g-div-resize', async(event,arg)=>{
+  utils.saveStyle(arg)
+});
