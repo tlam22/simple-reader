@@ -8,4 +8,9 @@ window.addEventListener('message', evt => {
     if (evt.data.type === 'view-window-data') {
       console.log(evt.data.value)
     }
-  })
+})
+
+function load_images(images){
+  let output = "";
+  
+}

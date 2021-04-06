@@ -11,8 +11,6 @@ process.once('loaded', () => {
   })
 
   ipcRenderer.on('directory-list', (event, arg)=>{
-    console.log(arg);
-
     window.postMessage({
       type: 'load-ui-gallery',
       value: arg

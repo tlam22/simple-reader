@@ -7,10 +7,13 @@ const utils = require('./utils/utils');
 let mainWindow
 
 function createWindow() {
+  const mainWindowStateKeeper = utils.windowStateKeeper('main')
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    x: mainWindowStateKeeper.x,
+    y: mainWindowStateKeeper.y,
+    width: mainWindowStateKeeper.width,
+    height: mainWindowStateKeeper.height,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -18,8 +21,11 @@ function createWindow() {
       contextIsolation: true,
       sandbox: true
     },
-    icon: __dirname + '/default.ico'
+    icon: __dirname + '/default.ico',
+    title: 'Main'
   })
+
+  mainWindowStateKeeper.track(mainWindow);
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
@@ -60,18 +66,18 @@ ipcMain.on('select-dirs', async (event, arg) => {
   const result = await dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory']
   })
-  console.log('directories selected', result.filePaths);
   const files = utils.getSubDirNames(result.filePaths);
   let thumbs = utils.getImageFiles(files)
-  console.log(thumbs)
   mainWindow.webContents.send("directory-list", thumbs);
 })
 
 ipcMain.on('view-window-open', async(event,arg)=>{
-  console.log(arg);
+  const mainWindowStateKeeper = utils.windowStateKeeper('view')
   const childWindow =  new BrowserWindow({
-    width: 800,
-    height: 600,
+    x: mainWindowStateKeeper.x,
+    y: mainWindowStateKeeper.y,
+    width: mainWindowStateKeeper.width,
+    height: mainWindowStateKeeper.height,
     webPreferences: {
       preload: path.join(__dirname, 'view-window/preload.js'),
       nodeIntegration: false,
@@ -80,8 +86,10 @@ ipcMain.on('view-window-open', async(event,arg)=>{
       sandbox: true
     },
     icon: __dirname + '/default.ico',
+    title: 'View',
     show: false});
-    childWindow.loadFile('./view-window/view.html')
+    mainWindowStateKeeper.track(childWindow);
+    childWindow.loadFile(path.join(__dirname,'view-window/view.html'));
     childWindow.once('ready-to-show', () => {
       childWindow.show()
     })
