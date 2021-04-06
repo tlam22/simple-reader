@@ -68,7 +68,6 @@ ipcMain.on('select-dirs', async (event, arg) => {
 
 ipcMain.on('view-window-open', async(event,arg)=>{
   console.log(arg);
- // return;
   const childWindow =  new BrowserWindow({    width: 800,
     height: 600,
     webPreferences: {
