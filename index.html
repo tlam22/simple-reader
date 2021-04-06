@@ -3,21 +3,53 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com/">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com/">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <link rel="stylesheet" href="./style.css">
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
+  <div>
+      <h1>Hello World!</h1>
     We are using Node.js <span id="node-version"></span>,
     Chromium <span id="chrome-version"></span>,
     and Electron <span id="electron-version"></span>.
 
 
     <input type="file" id="dirs" />
+  </div>
+
+
+    <div class="gallery">
+  <a target="_blank" href="img_5terre.jpg">
+    <img src="file://C:/Users/tsz.c.lam/Downloads/demo-electron-directory-master/images/car~{}/1.jpg" alt="Cinque Terre" >
+  </a>
+  <div class="desc">Add a description of the image here</div>
+</div>
+
+<div class="gallery">
+  <a target="_blank" href="img_forest.jpg">
+    <img src="file://C:/Users/tsz.c.lam/Downloads/demo-electron-directory-master/images/car~{}/1.jpg" alt="Forest">
+  </a>
+  <div class="desc">Add a description of the image here</div>
+</div>
+
+<div class="gallery">
+  <a target="_blank" href="img_lights.jpg">
+    <img src="file://C:/Users/tsz.c.lam/Downloads/demo-electron-directory-master/images/car~{}/1.jpg" alt="Northern Lights" >
+  </a>
+  <div class="desc">Add a description of the image here</div>
+</div>
+
+<div class="gallery">
+  <a target="_blank" href="img_mountains.jpg">
+    <img src="file://C:/Users/tsz.c.lam/Downloads/demo-electron-directory-master/images/car~{}/1.jpg" alt="Mountains">
+  </a>
+  <div class="desc">Add a description of the image here</div>
+</div>
   <!-- Try to load from cdn to exclude path issues. -->
   <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
+  <script src="./renderer.js"></script>
   </body>
 </html>

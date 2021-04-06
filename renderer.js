@@ -16,6 +16,11 @@ document.getElementById('dirs').addEventListener('click', (evt) => {
 window.addEventListener('message', evt => {
   if (evt.data.type === 'load-ui-gallery') {
     console.log(evt.data.value)
+
+    window.postMessage({
+      type: 'load-view-child-window',
+      value: evt.data.value
+    })
   }
 })
 

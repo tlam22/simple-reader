@@ -60,7 +60,30 @@ ipcMain.on('select-dirs', async (event, arg) => {
     properties: ['openDirectory']
   })
   console.log('directories selected', result.filePaths);
-  const files = utils.getSubDirNames(result);
+  const files = utils.getSubDirNames(result.filePaths);
+  let thumbs = utils.getImageFiles(files)
+  console.log(thumbs)
+  mainWindow.webContents.send("directory-list", thumbs);
+})
 
-  mainWindow.webContents.send("directory-list", files);
+ipcMain.on('view-window-open', async(event,arg)=>{
+  console.log(arg);
+ // return;
+  const childWindow =  new BrowserWindow({    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'view-window/preload.js'),
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true,
+      sandbox: true
+    },
+    show: false});
+    childWindow.loadFile('./view-window/view.html')
+    childWindow.once('ready-to-show', () => {
+      childWindow.show()
+    })
+    childWindow.once("show", function() {
+      childWindow.webContents.send("view-window-data-main", arg);
+    });
 })
