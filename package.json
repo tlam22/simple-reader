@@ -1,5 +1,5 @@
 {
-  "name": "electron-quick-start",
+  "name": "simple-reader",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
@@ -7,7 +7,6 @@
     "start": "electron .",
     "build": "electron-packager .  appTest  --platform=win32 --arch=x64 --overwrite"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
     "Electron",
     "quick",

@@ -17,7 +17,8 @@ function createWindow() {
       enableRemoteModule: false,
       contextIsolation: true,
       sandbox: true
-    }
+    },
+    icon: __dirname + '/default.ico'
   })
 
   // and load the index.html of the app.
@@ -68,7 +69,8 @@ ipcMain.on('select-dirs', async (event, arg) => {
 
 ipcMain.on('view-window-open', async(event,arg)=>{
   console.log(arg);
-  const childWindow =  new BrowserWindow({    width: 800,
+  const childWindow =  new BrowserWindow({
+    width: 800,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'view-window/preload.js'),
@@ -77,6 +79,7 @@ ipcMain.on('view-window-open', async(event,arg)=>{
       contextIsolation: true,
       sandbox: true
     },
+    icon: __dirname + '/default.ico',
     show: false});
     childWindow.loadFile('./view-window/view.html')
     childWindow.once('ready-to-show', () => {
