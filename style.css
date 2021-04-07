@@ -24,3 +24,36 @@ body{
   color: white;
   background-color: black;
 }
+
+img{
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.paginationjs-pages {
+  float: left;
+  position: absolute;
+  top: -53px;
+  left: 314px;
+  pointer-events: auto;
+}
+.paginationjs{
+  position: relative;
+  pointer-events: none;
+}
+#pagination{
+  pointer-events: none;
+}
+
+ .paginationjs-go-input {
+  position: absolute;
+  top: -53px;
+  left: 445px;
+  pointer-events: auto;
+ }
+
+ .paginationjs-go-button{
+  position: absolute;
+  top: -53px;
+  left: 491px;
+  pointer-events: auto;
+ }

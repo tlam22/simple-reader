@@ -10,9 +10,10 @@
 window.jQuery = window.$ = jQuery;
 
 $(document).ready(function () {
-
+  $('#load').hide();
   document.getElementById('dirs').addEventListener('click', (evt) => {
     evt.preventDefault()
+    $('#load').show();
     window.postMessage({
       type: 'select-dirs',
     })
@@ -21,30 +22,55 @@ $(document).ready(function () {
 
   window.addEventListener('message', evt => {
     if (evt.data.type === 'load-ui-gallery') {
-      load_gallery(evt.data.value)
+      set_up_gallery(evt.data.value)
     }
   })
 
 });
 
+function set_up_gallery(gallery){
+  if(gallery.length === 0){
+    $('#load').hide();
+    return "";
+  }
+  $('#pagination').pagination({
+    dataSource: gallery,
+    pageSize: 6,
+    showGoInput: true,
+    showGoButton: true,
+    callback: function(data, pagination) {
+        // template method of yourself
+        var html = load_gallery(data);
+        $('#g').html(html);
+        $("div.gallery").click(function() {
+          let image = $(this).find("img");
+          let title = $(image).attr("title");
+          let targets = gallery.find(x => x.title === title);
+          open_viewer_window({title: targets.title,images: targets.files});
+        })
+        $('#load').hide();
+    }
+  })
+
+}
+
+
+
 function load_gallery(gallery) {
   let output = "";
-  for (const title in gallery) {
-    if (gallery[title].length) {
+  for (const obj of gallery) {
+    if (obj.files.length) {
       output += `<div class="gallery">`;
-      output += `<img src="file://${gallery[title][0]}" alt="${title}" title="${title}">`;
-      output += `<div class="desc">${truncate(title, 80)}</div>`;
+      output += `<img src="file://${obj.files[0]}" alt="${obj.title}" title="${obj.title}">`;
+      output += `<div class="desc">${truncate(obj.title, 80)}</div>`;
       output += `</div>`;
     }
   }
-  $("#g").html(output);
-  $("div.gallery").click(function() {
-    let image = $(this).find("img");
-    let title = $(image).attr("title");
-    let targets = gallery[title];
-    open_viewer_window({title: title,images: targets});
-  })
+  return output;
 }
+
+
+
 
 function open_viewer_window(targets){
   window.postMessage({

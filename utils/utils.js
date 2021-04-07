@@ -16,18 +16,19 @@ function getSubDirNames(directory) {
 }
 
 function getImageFiles(directory) {
-  let files = {}
+  let files = []
   for (let filepath of directory) {
     const testFolder = filepath;
     const title = filepath.split("\\").splice(-1)[0];
-    files[title] = []
+    let obj ={title: title, files: []}
     let f = fs.readdirSync(testFolder);
     for (let file of f) {
       let fullPath = `${testFolder}\\${file}`;
       if (isImage(fullPath)) {
-        files[title].push(fullPath);
+        obj.files.push(fullPath.replace(/#/g,"%23"));
       }
     }
+    files.push(obj);
   }
   return files;
 
