@@ -3,43 +3,44 @@ div.gallery {
     border: 1px solid #ccc;
     float: left;
     cursor: pointer;
-    max-width: 320px;
-  }
-
+    width: 32%;
+}
+div#g{
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 720px;
+}
 div.gallery:hover {
   border: 1px solid #777;
 }
-
 div.gallery img {
-  width: 250px;
+  width: 100%;
   height: auto;
 }
-
 div.desc {
   padding: 15px;
   text-align: center;
   word-break: break-word;
 }
-
 body{
   color: white;
   background-color: black;
 }
-
 img{
   image-rendering: -webkit-optimize-contrast;
 }
-
 .paginationjs-pages {
   float: left;
   position: absolute;
-  top: -53px;
+  top: 145px;
   left: 314px;
   pointer-events: auto;
 }
 .paginationjs{
-  position: relative;
   pointer-events: none;
+}
+.paginationjs-pages, .paginationjs{
+  min-width: 740px;
 }
 #pagination{
   pointer-events: none;
@@ -47,14 +48,27 @@ img{
 
  .paginationjs-go-input {
   position: absolute;
-  top: -88px;
+  top: 105px;
   left: 314px;
   pointer-events: auto;
  }
 
  .paginationjs-go-button{
   position: absolute;
-  top: -88px;
+  top: 105px;
   left: 369px;
   pointer-events: auto;
  }
+
+div.tags-container{
+  color: black;
+  margin-top: 10px;
+}
+
+div.search-container{
+  margin-top: 10px;
+}
+
+.select2-dropdown{
+  color: black;
+}

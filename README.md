@@ -1,6 +1,8 @@
 # Simple Reader
 Read images in a given directory
 
+Works with .webp files
+
 To run
 ``` bash
 npm install

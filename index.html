@@ -5,7 +5,8 @@
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
-    <link rel="stylesheet" href="./utils/pagination.css">
+    <link rel="stylesheet" href="./node_modules/paginationjs/dist/pagination.css">
+    <link rel="stylesheet" href="./node_modules/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="./style.css">
     <title>Main</title>
   </head>
@@ -21,8 +22,20 @@
     <div>
         <input type="file" id="dirs" />
     </div>
-
-
+    <div class="search-container">
+        <input type="text" placeholder="Search.." name="search">
+        <button type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <circle cx="10" cy="10" r="7" />
+          <line x1="21" y1="21" x2="15" y2="15" />
+        </svg>
+        </button>
+    </div>
+    <div class="tags-container">
+        <select id="tags-select" class="js-states form-control">
+        </select>
+    </div>
   </div>
 
   <div id="g">
@@ -35,6 +48,7 @@
   <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <!-- You can also require other files to run in this process -->
   <script src="./renderer.js"></script>
-  <script src="./utils/pagination.min.js"></script>
+  <script src="./node_modules/paginationjs/dist/pagination.min.js"></script>
+    <script src="./node_modules/select2/dist/js/select2.min.js"></script>
   </body>
 </html>

@@ -20,12 +20,14 @@ function getImageFiles(directory) {
   for (let filepath of directory) {
     const testFolder = filepath;
     const title = filepath.split("\\").splice(-1)[0];
-    let obj ={title: title, files: []}
+    const match =  title.match(/\[(.*?)\]/);
+    const tag = match ? match[1] : "";
+    let obj ={title: title, files: [], tag: tag}
     let f = fs.readdirSync(testFolder);
     for (let file of f) {
       let fullPath = `${testFolder}\\${file}`;
       if (isImage(fullPath)) {
-        obj.files.push(fullPath.replace(/#/g,"%23"));
+        obj.files.push(fullPath.replace(/#/g,"%23").replace(/'/g, "&#39;"));
       }
     }
     files.push(obj);
