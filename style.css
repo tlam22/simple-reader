@@ -26,6 +26,9 @@ body{
   background-color: black;
 }
 
+img{
+  image-rendering: -webkit-optimize-contrast;
+}
 
 .paginationjs-pages {
   float: left;
