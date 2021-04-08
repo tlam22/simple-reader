@@ -95,8 +95,8 @@ function generate_new_dropDownItems(gallery){
   const emptyOption = new Option("", "", false, false);
   $('#tags-select').append(emptyOption).trigger('change');
   for (const obj of gallery) {
-    if(obj.tag !== "" && !$('#tags-select').find("option[value='" + obj.tag + "']").length){
-      const  newOption = new Option(obj.tag, obj.tag, false, false);
+    if(obj.tag !== "" && !$('#tags-select').find("option[value='" + obj.tag.toLowerCase() + "']").length){
+      const  newOption = new Option(obj.tag, obj.tag.toLowerCase(), false, false);
       $('#tags-select').append(newOption).trigger('change');
     }
   }  
