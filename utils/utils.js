@@ -30,6 +30,9 @@ function getImageFiles(directory) {
         obj.files.push(fullPath.replace(/#/g,"%23").replace(/'/g, "&#39;"));
       }
     }
+    obj.files.sort(function (a,b) {
+      return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+    });
     files.push(obj);
   }
   return files;
