@@ -15,7 +15,7 @@ function load_images(data) {
   let images = data.images
   for (const image of images) {
     output += `<div>`
-    output += `<img src='file://${image}'>`
+    output += `<img src='file://${image}' loading="lazy">`
     output += `</div>`
   }
   $('#g').html(output);
