@@ -8,40 +8,44 @@
     <link rel="stylesheet" href="./node_modules/paginationjs/dist/pagination.css">
     <link rel="stylesheet" href="./node_modules/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./header/style.css">
     <title>Main</title>
   </head>
   <body>
-  <div>
-    <h2>Simple Reader</h2>
+  <header id="titlebar"></header>
+  <div id="main">
     <div>
-      Select directory:
+      <h2>Simple Reader</h2>
+      <div>
+        Select directory:
+      </div>
+      <div id="load">
+        Loading ...
+      </div>
+      <div>
+          <input type="file" id="dirs" />
+      </div>
+      <div class="search-container">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <circle cx="10" cy="10" r="7" />
+            <line x1="21" y1="21" x2="15" y2="15" />
+          </svg>
+          </button>
+      </div>
+      <div class="tags-container">
+          <select id="tags-select" class="js-states form-control">
+          </select>
+      </div>
     </div>
-    <div id="load">
-      Loading ...
-    </div>
-    <div>
-        <input type="file" id="dirs" />
-    </div>
-    <div class="search-container">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-          <circle cx="10" cy="10" r="7" />
-          <line x1="21" y1="21" x2="15" y2="15" />
-        </svg>
-        </button>
-    </div>
-    <div class="tags-container">
-        <select id="tags-select" class="js-states form-control">
-        </select>
-    </div>
-  </div>
 
-  <div id="g">
+    <div id="g">
+    </div>
+    <br>
+    <div id="pagination"></div>
   </div>
-  <br>
-  <div id="pagination"></div>
 
  
   <!-- Try to load from cdn to exclude path issues. -->

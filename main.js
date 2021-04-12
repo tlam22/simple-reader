@@ -2,6 +2,7 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron')
 const path = require('path')
 const utils = require('./utils/utils');
+require('@electron/remote/main').initialize()
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -14,12 +15,13 @@ function createWindow() {
     y: mainWindowStateKeeper.y,
     width: mainWindowStateKeeper.width,
     height: mainWindowStateKeeper.height,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       contextIsolation: true,
-      sandbox: true
+      sandbox: false
     },
     icon: __dirname + '/default.ico',
     title: 'Main'
