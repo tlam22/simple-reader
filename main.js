@@ -2,7 +2,8 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron')
 const path = require('path')
 const utils = require('./utils/utils');
-require('@electron/remote/main').initialize()
+require('@electron/remote/main').initialize();
+require('v8-compile-cache');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -17,7 +18,7 @@ function createWindow() {
     height: mainWindowStateKeeper.height,
     frame: false,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'view-main/preload.js'),
       nodeIntegration: false,
       enableRemoteModule: true,
       contextIsolation: true,
@@ -30,7 +31,7 @@ function createWindow() {
   mainWindowStateKeeper.track(mainWindow);
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile(path.join(__dirname,'view-main/index.html'))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -80,12 +81,13 @@ ipcMain.on('view-window-open', async(event,arg)=>{
     y: mainWindowStateKeeper.y,
     width: mainWindowStateKeeper.width,
     height: mainWindowStateKeeper.height,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'view-window/preload.js'),
       nodeIntegration: false,
-      enableRemoteModule: false,
+      enableRemoteModule: true,
       contextIsolation: true,
-      sandbox: true
+      sandbox: false
     },
     icon: __dirname + '/default.ico',
     title: 'View',

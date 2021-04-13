@@ -20,22 +20,26 @@ function load_images(data) {
   }
   $('#g').html(output);
   document.title = title;
-  if(data.styles){
-    $('#g').attr('style',data.styles.style)
+  if (data.styles) {
+    $('#g').attr('style', data.styles.style)
   }
+  $("#load-header").load("../header/header.html", function () {
+    $("#window-title span").text(title);
+    handleWindowControls();
+  });
   check_size();
   cache_data(data);
 }
 
-function cache_data(data){ 
-  $(window).bind('beforeunload', function(){
+function cache_data(data) {
+  $(window).bind('beforeunload', function () {
     window.sessionStorage.setItem('image-data', JSON.stringify(data));
   })
 }
 
-function use_cached_data(){
+function use_cached_data() {
   let data = window.sessionStorage.getItem('image-data');
-  if(data){
+  if (data) {
     load_images(JSON.parse(data));
   }
 }
@@ -46,11 +50,45 @@ function check_size() {
   let observer = new MutationObserver(function (mutations) {
     window.postMessage({
       type: 'view-g-div-resize',
-      value: {style: g.attr('style')}
+      value: { style: g.attr('style') }
     })
   });
   observer.observe(foo, {
     attributes: true,
     attributeFilter: ['style']
+  });
+}
+
+
+function handleWindowControls() {
+  const event_type = 'handle-window-controls-view'
+  document.getElementById('min-button').addEventListener("click", event => {
+    window.postMessage({
+      type: event_type,
+      value: 'min'
+    })
+  });
+
+  document.getElementById('max-button').addEventListener("click", event => {
+    window.postMessage({
+      type: event_type,
+      value: 'max'
+    })
+    document.body.classList.add('maximized');
+  });
+
+  document.getElementById('restore-button').addEventListener("click", event => {
+    window.postMessage({
+      type: event_type,
+      value: 'restore'
+    })
+    document.body.classList.remove('maximized');
+  });
+
+  document.getElementById('close-button').addEventListener("click", event => {
+    window.postMessage({
+      type: event_type,
+      value: 'close'
+    })
   });
 }

@@ -11,7 +11,7 @@ window.jQuery = window.$ = jQuery;
 
 $(document).ready(function () {
   $('#load').hide();
-  $("#load-header").load("./header/header.html", function () {
+  $("#load-header").load("../header/header.html", function () {
     $("#window-title span").text("Simple Reader");
     handleWindowControls();
   });
@@ -180,16 +180,17 @@ function truncate(str, n, useWordBoundary = true) {
 
 
 function handleWindowControls() {
+  const event_type = 'handle-window-controls-main'
   document.getElementById('min-button').addEventListener("click", event => {
     window.postMessage({
-      type: 'handle-window-controls',
+      type: event_type,
       value: 'min'
     })
   });
 
   document.getElementById('max-button').addEventListener("click", event => {
     window.postMessage({
-      type: 'handle-window-controls',
+      type: event_type,
       value: 'max'
     })
     document.body.classList.add('maximized');
@@ -197,7 +198,7 @@ function handleWindowControls() {
 
   document.getElementById('restore-button').addEventListener("click", event => {
     window.postMessage({
-      type: 'handle-window-controls',
+      type: event_type,
       value: 'restore'
     })
     document.body.classList.remove('maximized');
@@ -205,7 +206,7 @@ function handleWindowControls() {
 
   document.getElementById('close-button').addEventListener("click", event => {
     window.postMessage({
-      type: 'handle-window-controls',
+      type: event_type,
       value: 'close'
     })
   });
