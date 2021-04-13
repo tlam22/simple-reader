@@ -24,7 +24,7 @@ function load_images(data) {
     $('#g').attr('style', data.styles.style)
   }
   $("#load-header").load("../header/header.html", function () {
-    $("#window-title span").text(title);
+    $("#window-title span").text(truncate(title,40,false));
     handleWindowControls();
   });
   check_size();
@@ -92,3 +92,11 @@ function handleWindowControls() {
     })
   });
 }
+
+function truncate(str, n, useWordBoundary = true) {
+  if (str.length <= n) { return str; }
+  const subString = str.substr(0, n - 1);
+  return (useWordBoundary
+    ? subString.substr(0, subString.lastIndexOf(" "))
+    : subString) + "...";
+};
