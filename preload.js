@@ -1,5 +1,6 @@
-const { ipcRenderer} = require('electron')
+const { ipcRenderer } = require('electron')
 const { BrowserWindow } = require('@electron/remote');
+const winControl = require('./utils/handler');
 let currWindow = BrowserWindow.getFocusedWindow();
 
 
@@ -11,6 +12,9 @@ process.once('loaded', () => {
     else if (evt.data.type === 'load-view-child-window') {
       ipcRenderer.send('view-window-open', evt.data.value);
     }
+    else if (evt.data.type === 'handle-window-controls') {
+      winControl.handle_window_controls(currWindow,evt);
+    }
   })
 
   ipcRenderer.on('directory-list', (event, arg) => {
@@ -19,11 +23,9 @@ process.once('loaded', () => {
       value: arg
     })
   })
-  window.closeCurrentWindow = function(){
-    currWindow.close();
-  }
+
 
   //window.closeCurrentWindow();
-  
+
 })
 

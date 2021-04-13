@@ -11,8 +11,9 @@ window.jQuery = window.$ = jQuery;
 
 $(document).ready(function () {
   $('#load').hide();
-  $("#load-header").load("./header/header.html", function(){
+  $("#load-header").load("./header/header.html", function () {
     $("#window-title span").text("Simple Reader");
+    handleWindowControls();
   });
 
   document.getElementById('dirs').addEventListener('click', (evt) => {
@@ -30,8 +31,8 @@ $(document).ready(function () {
     }
   })
 
-  $('div.search-container button').click(function(){
-    if(gallery_ref.length === 0){
+  $('div.search-container button').click(function () {
+    if (gallery_ref.length === 0) {
       return;
     }
     const query = $('div.search-container input').val();
@@ -42,16 +43,16 @@ $(document).ready(function () {
       pageSize: 6,
       showGoInput: true,
       showGoButton: true,
-      callback: function(data, pagination) {
-          let html = load_gallery(data);
-          $('#g').html(html);
-          $("div.gallery").click(function() {
-            let image = $(this).find("img");
-            let title = $(image).attr("title");
-            let targets = gallery_ref.find(x => x.title === title);
-            open_viewer_window({title: targets.title,images: targets.files});
-          })
-          $('#load').hide();
+      callback: function (data, pagination) {
+        let html = load_gallery(data);
+        $('#g').html(html);
+        $("div.gallery").click(function () {
+          let image = $(this).find("img");
+          let title = $(image).attr("title");
+          let targets = gallery_ref.find(x => x.title === title);
+          open_viewer_window({ title: targets.title, images: targets.files });
+        })
+        $('#load').hide();
       }
     })
   })
@@ -59,7 +60,7 @@ $(document).ready(function () {
 
   $("div.search-container input").on('keyup', function (e) {
     if (e.key === 'Enter' || e.keyCode === 13) {
-        $('div.search-container button').trigger( "click" );
+      $('div.search-container button').trigger("click");
     }
   });
 
@@ -67,8 +68,8 @@ $(document).ready(function () {
 
 });
 let gallery_ref = [];
-function set_up_gallery(gallery){
-  if(gallery.length === 0){
+function set_up_gallery(gallery) {
+  if (gallery.length === 0) {
     $('#load').hide();
     return "";
   }
@@ -78,35 +79,35 @@ function set_up_gallery(gallery){
     pageSize: 6,
     showGoInput: true,
     showGoButton: true,
-    callback: function(data, pagination) {
-        let html = load_gallery(data);
-        $('#g').html(html);
-        $("div.gallery").click(function() {
-          let image = $(this).find("img");
-          let title = $(image).attr("title");
-          let targets = gallery.find(x => x.title === title);
-          open_viewer_window({title: targets.title,images: targets.files});
-        })
-        $('#load').hide();
+    callback: function (data, pagination) {
+      let html = load_gallery(data);
+      $('#g').html(html);
+      $("div.gallery").click(function () {
+        let image = $(this).find("img");
+        let title = $(image).attr("title");
+        let targets = gallery.find(x => x.title === title);
+        open_viewer_window({ title: targets.title, images: targets.files });
+      })
+      $('#load').hide();
     }
   })
   generate_new_dropDownItems(gallery);
   document.onkeydown = checkArrowKeys;
 }
 
-function generate_new_dropDownItems(gallery){
+function generate_new_dropDownItems(gallery) {
   $('#tags-select').val(null).empty().trigger('change');
   const emptyOption = new Option("", "", false, false);
   $('#tags-select').append(emptyOption).trigger('change');
   for (const obj of gallery) {
-    if(obj.tag !== "" && !$('#tags-select').find("option[value='" + obj.tag.toLowerCase() + "']").length){
-      const  newOption = new Option(obj.tag, obj.tag.toLowerCase(), false, false);
+    if (obj.tag !== "" && !$('#tags-select').find("option[value='" + obj.tag.toLowerCase() + "']").length) {
+      const newOption = new Option(obj.tag, obj.tag.toLowerCase(), false, false);
       $('#tags-select').append(newOption).trigger('change');
     }
-  }  
+  }
 }
 
-function init_tagsDropDown(){
+function init_tagsDropDown() {
   $('#tags-select').select2({
     placeholder: 'Filter by tag',
     width: "178",
@@ -114,11 +115,11 @@ function init_tagsDropDown(){
   });
 
   $('#tags-select').on('select2:clear', function (e) {
-    $('div.search-container button').trigger( "click" );
+    $('div.search-container button').trigger("click");
   });
 
   $('#tags-select').on('select2:select', function (e) {
-    $('div.search-container button').trigger( "click" );
+    $('div.search-container button').trigger("click");
   });
 
 }
@@ -135,12 +136,12 @@ function checkArrowKeys(e) {
       // down arrow
   }*/
   if (e.keyCode == '37') {
-     // left arrow
-     $( "li.paginationjs-prev.J-paginationjs-previous" ).trigger( "click" );
+    // left arrow
+    $("li.paginationjs-prev.J-paginationjs-previous").trigger("click");
   }
   else if (e.keyCode == '39') {
-      // right arrow
-      $( "li.paginationjs-next.J-paginationjs-next" ).trigger( "click" );
+    // right arrow
+    $("li.paginationjs-next.J-paginationjs-next").trigger("click");
   }
 
 }
@@ -163,7 +164,7 @@ function load_gallery(gallery) {
 
 
 
-function open_viewer_window(targets){
+function open_viewer_window(targets) {
   window.postMessage({
     type: 'load-view-child-window',
     value: targets
@@ -171,9 +172,42 @@ function open_viewer_window(targets){
 }
 function truncate(str, n, useWordBoundary = true) {
   if (str.length <= n) { return str; }
-  const subString = str.substr(0, n - 1); 
+  const subString = str.substr(0, n - 1);
   return (useWordBoundary
     ? subString.substr(0, subString.lastIndexOf(" "))
     : subString) + "&hellip;";
 };
+
+
+function handleWindowControls() {
+  document.getElementById('min-button').addEventListener("click", event => {
+    window.postMessage({
+      type: 'handle-window-controls',
+      value: 'min'
+    })
+  });
+
+  document.getElementById('max-button').addEventListener("click", event => {
+    window.postMessage({
+      type: 'handle-window-controls',
+      value: 'max'
+    })
+    document.body.classList.add('maximized');
+  });
+
+  document.getElementById('restore-button').addEventListener("click", event => {
+    window.postMessage({
+      type: 'handle-window-controls',
+      value: 'restore'
+    })
+    document.body.classList.remove('maximized');
+  });
+
+  document.getElementById('close-button').addEventListener("click", event => {
+    window.postMessage({
+      type: 'handle-window-controls',
+      value: 'close'
+    })
+  });
+}
 

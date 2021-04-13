@@ -105,7 +105,7 @@ body{
   margin-left: 8px;
   overflow: hidden;
   font-family: "Segoe UI", sans-serif;
-  font-size: 12px;
+  font-size: 16px;
 }
 
 #window-title span {
@@ -113,4 +113,22 @@ body{
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 1.7;
+}
+
+
+.maximized #titlebar {
+  width: 100%;
+  padding: 0;
+}
+
+.maximized #window-title {
+  margin-left: 12px;
+}
+
+.maximized #restore-button {
+  display: flex !important;
+}
+
+.maximized #max-button {
+  display: none;
 }
