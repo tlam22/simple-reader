@@ -11,6 +11,10 @@ window.jQuery = window.$ = jQuery;
 
 $(document).ready(function () {
   $('#load').hide();
+  $("#load-header").load("./header/header.html", function(){
+    $("#window-title span").text("Simple Reader");
+  });
+
   document.getElementById('dirs').addEventListener('click', (evt) => {
     evt.preventDefault()
     $('#load').show();
