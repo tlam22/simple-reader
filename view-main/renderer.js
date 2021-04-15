@@ -146,8 +146,8 @@ function checkArrowKeys(e) {
   else if (e.keyCode == '40') {
     //  down arrow
     $( "#g" ).focus();
-  }
-  if (e.keyCode == '37') {
+  } 
+  else if (e.keyCode == '37') {
     // left arrow
     $("li.paginationjs-prev.J-paginationjs-previous").trigger("click");
   }
