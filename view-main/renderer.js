@@ -139,12 +139,14 @@ function checkArrowKeys(e) {
 
   e = e || window.event;
 
-  /*if (e.keyCode == '38') {
+  if (e.keyCode == '38') {
       // up arrow
+      $( "#g" ).focus();
   }
   else if (e.keyCode == '40') {
-      // down arrow
-  }*/
+    //  down arrow
+    $( "#g" ).focus();
+  }
   if (e.keyCode == '37') {
     // left arrow
     $("li.paginationjs-prev.J-paginationjs-previous").trigger("click");
