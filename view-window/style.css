@@ -15,7 +15,3 @@ div#g img{
     width: 100%;
     margin: auto;
 }
-
-img{
-    image-rendering: -webkit-optimize-contrast;
-}

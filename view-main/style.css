@@ -26,13 +26,10 @@ body{
   color: white;
   background-color: black;
 }
-img{
-  image-rendering: -webkit-optimize-contrast;
-}
 .paginationjs-pages {
   float: left;
   position: absolute;
-  top: 145px;
+  top: 138px;
   left: 314px;
   pointer-events: auto;
 }
@@ -71,4 +68,18 @@ div.search-container{
 
 .select2-dropdown{
   color: black;
+}
+
+
+.checkboxes label {
+  display: inline-block;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+.checkboxes input {
+vertical-align: middle;
+}
+.checkboxes label span {
+vertical-align: middle;
+color: white;
 }

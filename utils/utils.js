@@ -4,9 +4,9 @@ const path = require('path')
 function getSubDirNames(directory) {
   let directories = []
   for (let filepath of directory) {
-    const testFolder = filepath;
-    fs.readdirSync(testFolder).forEach(file => {
-      let fullPath = `${testFolder}\\${file}`;
+    const rootFolder = filepath;
+    fs.readdirSync(rootFolder).forEach(file => {
+      let fullPath = `${rootFolder}\\${file}`;
       if (fs.lstatSync(fullPath).isDirectory()) {
         directories.push(fullPath);
       }
@@ -18,19 +18,20 @@ function getSubDirNames(directory) {
 function getImageFiles(directory) {
   let files = []
   for (let filepath of directory) {
-    const testFolder = filepath;
+    const imageFolder = filepath;
     const title = filepath.split("\\").splice(-1)[0];
-    const match =  title.match(/\[(.*?)\]/);
+    const match = title.match(/\[(.*?)\]/);
     const tag = match ? match[1] : "";
-    let obj ={title: title, files: [], tag: tag}
-    let f = fs.readdirSync(testFolder);
+    const { birthtime } = fs.statSync(imageFolder);
+    let obj = { title: title, files: [], tag: tag, createdDate: birthtime }
+    let f = fs.readdirSync(imageFolder);
     for (let file of f) {
-      let fullPath = `${testFolder}\\${file}`;
+      let fullPath = `${imageFolder}\\${file}`;
       if (isImage(fullPath)) {
-        obj.files.push(fullPath.replace(/#/g,"%23").replace(/'/g, "&#39;"));
+        obj.files.push(fullPath.replace(/#/g, "%23").replace(/'/g, "&#39;"));
       }
     }
-    obj.files.sort(function (a,b) {
+    obj.files.sort(function (a, b) {
       return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
     });
     files.push(obj);
@@ -47,24 +48,24 @@ const storeData = (data, path) => {
   }
 }
 
-const readData = (path) =>{
-  try{
+const readData = (path) => {
+  try {
     return JSON.parse(fs.readFileSync(path, 'utf8'));
   }
-  catch(err){
+  catch (err) {
     console.error(err)
   }
 }
 
 function windowStateKeeper(windowName) {
   let window, windowState;
-  let dir = path.join(path.join(__dirname,`../settings`))
-  if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
+  let dir = path.join(path.join(__dirname, `../settings`))
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
   }
-  let settings = path.join(__dirname,`../settings/windowState.${windowName}.json`);
+  let settings = path.join(__dirname, `../settings/windowState.${windowName}.json`);
   function setBounds() {
-    if(fs.existsSync(settings)){
+    if (fs.existsSync(settings)) {
       windowState = readData(settings);
       return;
     }
@@ -80,7 +81,7 @@ function windowStateKeeper(windowName) {
       windowState = window.getBounds();
     }
     windowState.isMaximized = window.isMaximized();
-    storeData(windowState,settings);
+    storeData(windowState, settings);
   }
   function track(win) {
     window = win;
@@ -99,17 +100,17 @@ function windowStateKeeper(windowName) {
   });
 }
 
-function saveStyle(data){
-  let dir = path.join(path.join(__dirname,`../settings`))
-  if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
+function saveStyle(data) {
+  let dir = path.join(path.join(__dirname, `../settings`))
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
   }
-  let settings = path.join(__dirname,`../settings/windowState.styles.json`);
-  storeData(data,settings);
+  let settings = path.join(__dirname, `../settings/windowState.styles.json`);
+  storeData(data, settings);
 }
 
-function readStyle(){
-  let settings = path.join(__dirname,`../settings/windowState.styles.json`);
+function readStyle() {
+  let settings = path.join(__dirname, `../settings/windowState.styles.json`);
   if (!fs.existsSync(settings)) return null;
   return readData(settings);
 }

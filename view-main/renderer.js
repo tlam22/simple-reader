@@ -38,6 +38,9 @@ $(document).ready(function () {
     const query = $('div.search-container input').val();
     const tag = ($('#tags-select').find(':selected').val() || "")
     let filtered = gallery_ref.filter(x => x.title && x.title.toLowerCase().includes(query.toLowerCase()) && x.title.toLowerCase().includes(tag.toLowerCase()));
+    if($('#sort-latest').prop('checked')){
+      filtered = filtered.sort((a,b)=> b.createdDate - a.createdDate);
+    }
     $('#pagination').pagination({
       dataSource: filtered,
       pageSize: 6,
@@ -73,7 +76,10 @@ function set_up_gallery(gallery) {
     $('#load').hide();
     return "";
   }
-  gallery_ref = gallery;
+  gallery_ref = [...gallery];
+  if($('#sort-latest').prop('checked')){
+    gallery = gallery.sort((a,b)=> b.createdDate - a.createdDate);
+  }
   $('#pagination').pagination({
     dataSource: gallery,
     pageSize: 6,
@@ -121,6 +127,10 @@ function init_tagsDropDown() {
   $('#tags-select').on('select2:select', function (e) {
     $('div.search-container button').trigger("click");
   });
+
+  $('#sort-latest').click(function(e){
+    $('div.search-container button').trigger("click");
+  })
 
 }
 
