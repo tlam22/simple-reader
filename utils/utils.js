@@ -57,13 +57,13 @@ const readData = (path) => {
   }
 }
 
-function windowStateKeeper(windowName) {
+function windowStateKeeper(windowName, app) {
   let window, windowState;
-  let dir = path.join(path.join(__dirname, `../settings`))
+  let dir = path.join(app.getPath('userData'), `settings`);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
-  let settings = path.join(__dirname, `../settings/windowState.${windowName}.json`);
+  let settings = path.join(app.getPath('userData'), `settings/windowState.${windowName}.json`);
   function setBounds() {
     if (fs.existsSync(settings)) {
       windowState = readData(settings);
@@ -100,17 +100,17 @@ function windowStateKeeper(windowName) {
   });
 }
 
-function saveStyle(data) {
-  let dir = path.join(path.join(__dirname, `../settings`))
+function saveStyle(data,app) {
+  let dir = path.join(app.getPath('userData'), `settings`)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
-  let settings = path.join(__dirname, `../settings/windowState.styles.json`);
+  let settings = path.join(app.getPath('userData'), `settings/windowState.styles.json`);
   storeData(data, settings);
 }
 
-function readStyle() {
-  let settings = path.join(__dirname, `../settings/windowState.styles.json`);
+function readStyle(app) {
+  let settings = path.join(app.getPath('userData'), `settings/windowState.styles.json`);
   if (!fs.existsSync(settings)) return null;
   return readData(settings);
 }

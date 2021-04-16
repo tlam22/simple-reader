@@ -24,8 +24,5 @@ process.once('loaded', () => {
     })
   })
 
-
-  //window.closeCurrentWindow();
-
 })
 

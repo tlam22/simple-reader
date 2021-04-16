@@ -9,7 +9,7 @@ require('v8-compile-cache');
 let mainWindow
 
 function createWindow() {
-  const mainWindowStateKeeper = utils.windowStateKeeper('main')
+  const mainWindowStateKeeper = utils.windowStateKeeper('main', app)
   // Create the browser window.
   mainWindow = new BrowserWindow({
     x: mainWindowStateKeeper.x,
@@ -31,13 +31,13 @@ function createWindow() {
   mainWindowStateKeeper.track(mainWindow);
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname,'view-main/index.html'))
+  mainWindow.loadFile(path.join(__dirname, 'view-main/index.html'))
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
+  mainWindow.on('closed', function () {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
@@ -51,13 +51,13 @@ function createWindow() {
 app.on('ready', createWindow)
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') app.quit()
 })
 
-app.on('activate', function() {
+app.on('activate', function () {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) createWindow()
@@ -71,12 +71,12 @@ ipcMain.on('select-dirs', async (event, arg) => {
   })
   const files = utils.getSubDirNames(result.filePaths);
   let thumbs = utils.getImageFiles(files)
-  mainWindow.webContents.send("directory-list",  thumbs);
+  mainWindow.webContents.send("directory-list", thumbs);
 });
 
-ipcMain.on('view-window-open', async(event,arg)=>{
-  const mainWindowStateKeeper = utils.windowStateKeeper('view')
-  const childWindow =  new BrowserWindow({
+ipcMain.on('view-window-open', async (event, arg) => {
+  const mainWindowStateKeeper = utils.windowStateKeeper('view', app)
+  const childWindow = new BrowserWindow({
     x: mainWindowStateKeeper.x,
     y: mainWindowStateKeeper.y,
     width: mainWindowStateKeeper.width,
@@ -91,21 +91,22 @@ ipcMain.on('view-window-open', async(event,arg)=>{
     },
     icon: __dirname + '/default.ico',
     title: 'View',
-    show: false});
-    mainWindowStateKeeper.track(childWindow);
-    childWindow.loadFile(path.join(__dirname,'view-window/view.html'));
-    childWindow.once('ready-to-show', () => {
-      childWindow.show()
-    })
-    let styles = utils.readStyle();
-    if(styles){
-      arg.styles= styles;
-    }
-    childWindow.once("show", function() {
-      childWindow.webContents.send("view-window-data-main", arg);
-    });
+    show: false
+  });
+  mainWindowStateKeeper.track(childWindow);
+  childWindow.loadFile(path.join(__dirname, 'view-window/view.html'));
+  childWindow.once('ready-to-show', () => {
+    childWindow.show()
+  })
+  let styles = utils.readStyle(app);
+  if (styles) {
+    arg.styles = styles;
+  }
+  childWindow.once("show", function () {
+    childWindow.webContents.send("view-window-data-main", arg);
+  });
 });
 
-ipcMain.on('view-g-div-resize', async(event,arg)=>{
-  utils.saveStyle(arg)
+ipcMain.on('view-g-div-resize', async (event, arg) => {
+  utils.saveStyle(arg, app)
 });
