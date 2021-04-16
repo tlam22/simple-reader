@@ -15,11 +15,21 @@ process.once('loaded', () => {
       const currWindow = BrowserWindow.getFocusedWindow();
       winControl.handle_window_controls(currWindow,evt);
     }
+    else if (evt.data.type === 'sort-latest-checkbox') {
+      ipcRenderer.send('sort-latest-checkbox-setting',evt.data.value)
+    }
   })
 
   ipcRenderer.on('directory-list', (event, arg) => {
     window.postMessage({
       type: 'load-ui-gallery',
+      value: arg
+    })
+  })
+
+  ipcRenderer.on('userSettings-main', (event, arg) => {
+    window.postMessage({
+      type: 'userSettings',
       value: arg
     })
   })

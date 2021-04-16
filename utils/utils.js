@@ -115,8 +115,26 @@ function readStyle(app) {
   return readData(settings);
 }
 
+
+function saveUserSettings(data,app) {
+  let dir = path.join(app.getPath('userData'), `settings`)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  let settings = path.join(app.getPath('userData'), `settings/userSettings.json`);
+  storeData(data, settings);
+}
+
+function readUserSettings(app) {
+  let settings = path.join(app.getPath('userData'), `settings/userSettings.json`);
+  if (!fs.existsSync(settings)) return null;
+  return readData(settings);
+}
+
 module.exports.getSubDirNames = getSubDirNames;
 module.exports.getImageFiles = getImageFiles;
 module.exports.windowStateKeeper = windowStateKeeper;
 module.exports.saveStyle = saveStyle;
 module.exports.readStyle = readStyle;
+module.exports.readUserSettings = readUserSettings;
+module.exports.saveUserSettings = saveUserSettings;

@@ -29,6 +29,11 @@ $(document).ready(function () {
     if (evt.data.type === 'load-ui-gallery') {
       set_up_gallery(evt.data.value)
     }
+    else if(evt.data.type === 'userSettings'){
+      console.log(evt.data.value);
+      let s = evt.data.value;
+      $('#sort-latest').prop('checked',s.sort_latest)
+    }
   })
 
   $('div.search-container button').click(function () {
@@ -130,6 +135,10 @@ function init_tagsDropDown() {
 
   $('#sort-latest').click(function(e){
     $('div.search-container button').trigger("click");
+    window.postMessage({
+      type: 'sort-latest-checkbox',
+      value: {sort_latest: $('#sort-latest').prop('checked')}
+    })
   })
 
 }

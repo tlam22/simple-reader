@@ -25,13 +25,22 @@ function createWindow() {
       sandbox: false
     },
     icon: __dirname + '/default.ico',
-    title: 'Main'
+    title: 'Main',
+    show: false
   })
 
   mainWindowStateKeeper.track(mainWindow);
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'view-main/index.html'))
+  mainWindow.loadFile(path.join(__dirname, 'view-main/index.html'));
+  const userSettings = utils.readUserSettings(app);
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
+  mainWindow.once("show", function () {
+    if(!userSettings) return;
+    mainWindow.webContents.send("userSettings-main", userSettings)
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -109,4 +118,8 @@ ipcMain.on('view-window-open', async (event, arg) => {
 
 ipcMain.on('view-g-div-resize', async (event, arg) => {
   utils.saveStyle(arg, app)
+});
+
+ipcMain.on('sort-latest-checkbox-setting', async(event,arg) => {
+  utils.saveUserSettings(arg,app);
 });
