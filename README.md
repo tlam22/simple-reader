@@ -9,6 +9,8 @@ npm install
 npm start
 ```
 
+Use mt.exe to edit windows manifest if needed.
+
 Sample Directory Structure
 ```
 gallery/
