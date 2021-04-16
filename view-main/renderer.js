@@ -57,7 +57,7 @@ $(document).ready(function () {
         $("div.gallery").click(function () {
           let image = $(this).find("img");
           let title = $(image).attr("title");
-          let targets = gallery_ref.find(x => x.title === title);
+          let targets = filtered.find(x => x.title === title);
           open_viewer_window({ title: targets.title, images: targets.files });
         })
         $('#load').hide();
