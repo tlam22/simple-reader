@@ -102,7 +102,7 @@ function set_up_gallery(gallery) {
       $('#load').hide();
     }
   })
-  generate_new_dropDownItems(gallery);
+  generate_new_dropDownItems(gallery_ref);
   document.onkeydown = checkArrowKeys;
 }
 
