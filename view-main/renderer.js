@@ -19,6 +19,7 @@ $(document).ready(function () {
   document.getElementById('dirs').addEventListener('click', (evt) => {
     evt.preventDefault()
     $('#load').show();
+    $("input").prop('disabled', true);
     window.postMessage({
       type: 'select-dirs',
     })
@@ -29,10 +30,9 @@ $(document).ready(function () {
     if (evt.data.type === 'load-ui-gallery') {
       set_up_gallery(evt.data.value)
     }
-    else if(evt.data.type === 'userSettings'){
-      console.log(evt.data.value);
+    else if (evt.data.type === 'userSettings') {
       let s = evt.data.value;
-      $('#sort-latest').prop('checked',s.sort_latest)
+      $('#sort-latest').prop('checked', s.sort_latest)
     }
   })
 
@@ -43,8 +43,8 @@ $(document).ready(function () {
     const query = $('div.search-container input').val();
     const tag = ($('#tags-select').find(':selected').val() || "")
     let filtered = gallery_ref.filter(x => x.title && x.title.toLowerCase().includes(query.toLowerCase()) && x.title.toLowerCase().includes(tag.toLowerCase()));
-    if($('#sort-latest').prop('checked')){
-      filtered = filtered.sort((a,b)=> b.createdDate - a.createdDate);
+    if ($('#sort-latest').prop('checked')) {
+      filtered = filtered.sort((a, b) => b.createdDate - a.createdDate);
     }
     $('#pagination').pagination({
       dataSource: filtered,
@@ -60,7 +60,7 @@ $(document).ready(function () {
           let targets = filtered.find(x => x.title === title);
           open_viewer_window({ title: targets.title, images: targets.files });
         })
-        $('#load').hide();
+        hide_loadings();
       }
     })
   })
@@ -76,14 +76,18 @@ $(document).ready(function () {
 
 });
 let gallery_ref = [];
+function hide_loadings() {
+  $('#load').hide();
+  $("input").prop('disabled', false);
+}
 function set_up_gallery(gallery) {
   if (gallery.length === 0) {
-    $('#load').hide();
+    hide_loadings()
     return "";
   }
   gallery_ref = [...gallery];
-  if($('#sort-latest').prop('checked')){
-    gallery = gallery.sort((a,b)=> b.createdDate - a.createdDate);
+  if ($('#sort-latest').prop('checked')) {
+    gallery = gallery.sort((a, b) => b.createdDate - a.createdDate);
   }
   $('#pagination').pagination({
     dataSource: gallery,
@@ -99,7 +103,7 @@ function set_up_gallery(gallery) {
         let targets = gallery.find(x => x.title === title);
         open_viewer_window({ title: targets.title, images: targets.files });
       })
-      $('#load').hide();
+      hide_loadings();
     }
   })
   generate_new_dropDownItems(gallery_ref);
@@ -133,11 +137,11 @@ function init_tagsDropDown() {
     $('div.search-container button').trigger("click");
   });
 
-  $('#sort-latest').click(function(e){
+  $('#sort-latest').click(function (e) {
     $('div.search-container button').trigger("click");
     window.postMessage({
       type: 'sort-latest-checkbox',
-      value: {sort_latest: $('#sort-latest').prop('checked')}
+      value: { sort_latest: $('#sort-latest').prop('checked') }
     })
   })
 
@@ -149,13 +153,13 @@ function checkArrowKeys(e) {
   e = e || window.event;
 
   if (e.keyCode == '38') {
-      // up arrow
-      $( "#g" ).focus();
+    // up arrow
+    $("#g").focus();
   }
   else if (e.keyCode == '40') {
     //  down arrow
-    $( "#g" ).focus();
-  } 
+    $("#g").focus();
+  }
   else if (e.keyCode == '37') {
     // left arrow
     $("li.paginationjs-prev.J-paginationjs-previous").trigger("click");

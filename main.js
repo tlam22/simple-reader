@@ -9,6 +9,20 @@ require('v8-compile-cache');
 let mainWindow
 
 function createWindow() {
+  const window_loading = new BrowserWindow({
+    width: 500,
+    height: 500,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: false,
+      enableRemoteModule: false,
+      contextIsolation: true,
+      sandbox: false
+    },
+    icon: __dirname + '/default.ico'
+  });
+  window_loading.setResizable(false);
+  window_loading.loadFile(path.join(__dirname,'view-loader/loader.html'));
   const mainWindowStateKeeper = utils.windowStateKeeper('main', app)
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -28,18 +42,17 @@ function createWindow() {
     title: 'Main',
     show: false
   })
-
   mainWindowStateKeeper.track(mainWindow);
-
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'view-main/index.html'));
   const userSettings = utils.readUserSettings(app);
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
+    window_loading.close();
+    mainWindow.show();
   })
   mainWindow.once("show", function () {
     if(!userSettings) return;
-    mainWindow.webContents.send("userSettings-main", userSettings)
+    mainWindow.webContents.send("userSettings-main", userSettings);
   });
 
   // Open the DevTools.
