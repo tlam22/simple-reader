@@ -16,6 +16,10 @@ $(document).ready(function () {
     handleWindowControls();
   });
 
+  $(window).resize(function () {
+    bottom_paginator_css();
+  });
+
   document.getElementById('dirs').addEventListener('click', (evt) => {
     evt.preventDefault()
     $('#load').show();
@@ -46,22 +50,13 @@ $(document).ready(function () {
     if ($('#sort-latest').prop('checked')) {
       filtered = filtered.sort((a, b) => b.createdDate - a.createdDate);
     }
-    $('#pagination').pagination({
+    $('.pagination').pagination({
       dataSource: filtered,
       pageSize: 6,
       showGoInput: true,
       showGoButton: true,
-      callback: function (data, pagination) {
-        let html = load_gallery(data);
-        $('#g').html(html);
-        $("div.gallery").click(function () {
-          let image = $(this).find("img");
-          let title = $(image).attr("title");
-          let targets = filtered.find(x => x.title === title);
-          open_viewer_window({ title: targets.title, images: targets.files });
-        })
-        hide_loadings();
-      }
+      className: 'paginationjs-theme-yellow',
+      callback: gallery_pagination_generate
     })
   })
 
@@ -89,25 +84,37 @@ function set_up_gallery(gallery) {
   if ($('#sort-latest').prop('checked')) {
     gallery = gallery.sort((a, b) => b.createdDate - a.createdDate);
   }
-  $('#pagination').pagination({
+  $('.pagination').pagination({
     dataSource: gallery,
     pageSize: 6,
     showGoInput: true,
     showGoButton: true,
-    callback: function (data, pagination) {
-      let html = load_gallery(data);
-      $('#g').html(html);
-      $("div.gallery").click(function () {
-        let image = $(this).find("img");
-        let title = $(image).attr("title");
-        let targets = gallery.find(x => x.title === title);
-        open_viewer_window({ title: targets.title, images: targets.files });
-      })
-      hide_loadings();
-    }
+    className: 'paginationjs-theme-yellow',
+    callback: gallery_pagination_generate
   })
   generate_new_dropDownItems(gallery_ref);
   document.onkeydown = checkArrowKeys;
+}
+
+function gallery_pagination_generate(data, pagination) {
+  let html = load_gallery(data);
+  $('#g').html(html);
+  $("div.gallery").click(function () {
+    let image = $(this).find("img");
+    let title = $(image).attr("title");
+    let targets = gallery.find(x => x.title === title);
+    open_viewer_window({ title: targets.title, images: targets.files });
+  });
+  fix_pagination();
+  $('#g').waitForImages(function () {
+    bottom_paginator_css();
+  });
+  hide_loadings();
+}
+
+function fix_pagination(){
+  $('.pagination.top div.paginationjs').remove();
+  $('.pagination.bottom div.paginationjs').first().addClass('bottom');
 }
 
 function generate_new_dropDownItems(gallery) {
@@ -186,7 +193,16 @@ function load_gallery(gallery) {
   return output;
 }
 
+function bottom_paginator_css() {
+  let g = $('#g').height();
+  $('.pagination.bottom div.paginationjs.bottom .paginationjs-pages').css('top', g + 220);
+  $('.pagination.bottom div.paginationjs.bottom .paginationjs-go-input').css('top', g + 35 + 220);
+  $('.pagination.bottom div.paginationjs.bottom .paginationjs-go-button').css('top', g + 35 + 220);
+}
 
+function top_paginator_handler() {
+  $('.pagination.top .paginationjs-pages ul li > a')
+}
 
 
 function open_viewer_window(targets) {

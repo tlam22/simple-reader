@@ -30,9 +30,37 @@ body{
   float: left;
   position: absolute;
   top: 138px;
-  left: 314px;
+  left: 43%;
   pointer-events: auto;
 }
+.paginationjs-go-input {
+ position: absolute;
+ top: 105px;
+ left: 45%;
+ pointer-events: auto;
+}
+
+.paginationjs-go-button{
+ position: absolute;
+ top: 105px;
+ left: calc(45%  + 35px);
+ pointer-events: auto;
+}
+
+@media only screen and (max-width: 740px){
+  .paginationjs-pages {
+    left: 314px;
+  }
+  .paginationjs-go-input {
+   left: 325px;
+  }
+  
+  .paginationjs-go-button{
+   left: 362px;
+  }
+}
+
+
 .paginationjs{
   pointer-events: none;
 }
@@ -43,19 +71,6 @@ body{
   pointer-events: none;
 }
 
- .paginationjs-go-input {
-  position: absolute;
-  top: 105px;
-  left: 314px;
-  pointer-events: auto;
- }
-
- .paginationjs-go-button{
-  position: absolute;
-  top: 105px;
-  left: 369px;
-  pointer-events: auto;
- }
 
 div.tags-container{
   color: black;
