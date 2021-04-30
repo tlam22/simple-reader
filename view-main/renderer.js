@@ -56,7 +56,9 @@ $(document).ready(function () {
       showGoInput: true,
       showGoButton: true,
       className: 'paginationjs-theme-yellow',
-      callback: gallery_pagination_generate
+      callback: function(data,pagination){
+        gallery_pagination_generate(data,pagination,filtered)
+      }
     })
   })
 
@@ -90,13 +92,15 @@ function set_up_gallery(gallery) {
     showGoInput: true,
     showGoButton: true,
     className: 'paginationjs-theme-yellow',
-    callback: gallery_pagination_generate
+    callback: function(data,pagination){
+      gallery_pagination_generate(data,pagination,gallery)
+    }
   })
   generate_new_dropDownItems(gallery_ref);
   document.onkeydown = checkArrowKeys;
 }
 
-function gallery_pagination_generate(data, pagination) {
+function gallery_pagination_generate(data, pagination,gallery) {
   let html = load_gallery(data);
   $('#g').html(html);
   $("div.gallery").click(function () {
