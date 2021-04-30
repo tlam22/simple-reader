@@ -52,7 +52,7 @@ $(document).ready(function () {
     }
     $('.pagination').pagination({
       dataSource: filtered,
-      pageSize: 6,
+      pageSize: 1,
       showGoInput: true,
       showGoButton: true,
       className: 'paginationjs-theme-yellow',
@@ -86,7 +86,7 @@ function set_up_gallery(gallery) {
   }
   $('.pagination').pagination({
     dataSource: gallery,
-    pageSize: 6,
+    pageSize: 1,
     showGoInput: true,
     showGoButton: true,
     className: 'paginationjs-theme-yellow',

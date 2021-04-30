@@ -47,6 +47,13 @@ body{
  pointer-events: auto;
 }
 
+.bottom .paginationjs .paginationjs-pages li>a {
+  background: black
+}
+.bottom .paginationjs .paginationjs-pages li.disabled>a{
+  opacity: 0.6;
+}
+
 @media only screen and (max-width: 740px){
   .paginationjs-pages {
     left: 314px;
